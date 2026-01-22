@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!--
+    https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/1.2.8.RELEASE -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.2.8.RELEASE</version>
+        <relativePath /> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.o19s</groupId>
+    <artifactId>solrj-compatiblity</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>solrj-compatiblity</name>
+    <description>Demo project for Spring Boot</description>
+    <properties>
+        <java.version>8</java.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.solr/solr-solrj/4.5.1 -->
+        <dependency>
+            <groupId>org.apache.solr</groupId>
+            <artifactId>solr-solrj</artifactId>
+            <version>4.5.1</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <!-- builds the Spring Boot application -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>1.2.8.RELEASE</version>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack-solrj-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.apache.solr</groupId>
+                                    <artifactId>solr-solrj</artifactId>
+                                    <version>4.5.1</version>
+                                    <type>jar</type>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${project.build.directory}/solrj-patch</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>download-solrj-pom</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.apache.solr</groupId>
+                                    <artifactId>solr-solrj</artifactId>
+                                    <version>4.5.1</version>
+                                    <type>pom</type>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-solrj-patch</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.build.directory}/solrj-patch/org/apache/solr/common/cloud</outputDirectory>
+                            <overwrite>true</overwrite>
+                            <resources>
+                                <resource>
+                                    <directory>
+                                        ${project.build.directory}/classes/org/apache/solr/common/cloud</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.8.0</version>
+                <executions>
+                    <execution>
+                        <id>package-solrj-patch</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <finalName>solrj-4.5.1</finalName>
+                            <inlineDescriptors>
+                                <inlineDescriptor>
+                                    <id>solr9-patched</id>
+                                    <formats>
+                                        <format>jar</format>
+                                    </formats>
+                                    <includeBaseDirectory>false</includeBaseDirectory>
+                                    <fileSets>
+                                        <fileSet>
+                                            <directory>${project.build.directory}/solrj-patch</directory>
+                                            <outputDirectory>/</outputDirectory>
+                                            <includes>
+                                                <include>**/*</include>
+                                            </includes>
+                                        </fileSet>
+                                    </fileSets>
+                                </inlineDescriptor>
+                            </inlineDescriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/o19s/solr-solrj-compatibility</url>
+        </repository>
+    </distributionManagement>
+</project>
