@@ -19,9 +19,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Deploy to GitHub Packages
         run: |
-          mvn deploy:deploy-file \
+          mvn --no-transfer-progress deploy:deploy-file \
             -Dfile=target/solrj-4.5.1-solr9-patched.jar \
             -DpomFile=target/solr-solrj-4.5.1.pom \
+            -DartifactId=solr-solrj \
+            -DgroupId=org.apache.solr \
+            -Dversion=4.5.1 \
+            -Dclassifier=solr9-patched \
+            -Dpackaging=jar \
             -DrepositoryId=github \
-            -Durl=https://maven.pkg.github.com/o19s/solr-solrj-compatibility \
+            -Durl=https://maven.pkg.github.com/${{ github.repository }} \
             -Dtoken="${{ secrets.GITHUB_TOKEN }}"
