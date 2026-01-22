@@ -36,4 +36,39 @@ $ curl "http://localhost:8080/"
 
 ## 📦 Using the patched SolrJ client
 
+To use the patched SolrJ client, add the following `repository` and `dependency` definition to your
+Maven `pom.xml`.
+
+```xml
+<project>
+  <dependencies>
+      <dependency>
+          <groupId>org.apache.solr</groupId>
+          <artifactId>solr-solrj</artifactId>
+          <version>4.5.1</version>
+          <classifier>solr9-patched</classifier>
+      </dependency>
+  </dependencies>
+
+  <repositories>
+    <repository>
+      <id>github</id>
+      <name>OpenSource Connections SolrJ 4.x client for modern Solr Cloud clusters</name>
+      <url>https://maven.pkg.github.com/o19s/solr-solrj-compatibility</url>
+    </repository>
+  </repositories>
+</project>
+```
+
+> In order to access the GitHub Maven Repository, you need to
+> [authenticate against GitHub Packages](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry#authenticating-to-github-packages)
+> using your GitHub credentials
+
+
 ## 👩‍💻 Building the patched SolrJ client
+
+It's a simple Maven build
+
+```bash
+mvn clean package
+```
