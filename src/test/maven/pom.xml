@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.o19s</groupId>
+    <artifactId>solrj-compatiblity-dependency-test</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>solrj-compatiblity-dependency-test</name>
+    <description>Demo project for Spring Boot</description>
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.solr</groupId>
+            <artifactId>solr-solrj</artifactId>
+            <version>4.5.1</version>
+            <classifier>solr9-patched</classifier>
+        </dependency>
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>o19s-solrj</id>
+            <name>OpenSource Connections</name>
+            <url>https://maven.pkg.github.com/o19s/solr-solrj-compatibility</url>
+        </repository>
+    </repositories>
+</project>
