@@ -20,7 +20,7 @@ jobs:
       - name: Deploy to GitHub Packages
         run: |
           mvn --no-transfer-progress org.apache.maven.plugins:maven-deploy-plugin:3.1.4:deploy-file \
-            -Dfile=target/solrj-4.5.1-solr9-patched.jar \
+            -Dfile=target/solr-solrj-4.5.1-solr9-patched.jar \
             -DpomFile=src/main/maven/solr-solrj-4.5.1-solr9-patched.pom \
             -DartifactId=solr-solrj \
             -DgroupId=org.apache.solr \
