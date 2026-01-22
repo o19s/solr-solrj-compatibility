@@ -68,6 +68,24 @@
                             <outputDirectory>${project.build.directory}/solrj-patch</outputDirectory>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>download-solrj-pom</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.apache.solr</groupId>
+                                    <artifactId>solr-solrj</artifactId>
+                                    <version>4.5.1</version>
+                                    <type>pom</type>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
 

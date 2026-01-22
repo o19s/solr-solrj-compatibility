@@ -21,7 +21,7 @@ jobs:
         run: |
           mvn --no-transfer-progress org.apache.maven.plugins:maven-deploy-plugin:3.1.4:deploy-file \
             -Dfile=target/solr-solrj-4.5.1-solr9-patched.jar \
-            -DpomFile=src/main/maven/solr-solrj-4.5.1-solr9-patched.pom \
+            -DpomFile=target/solr-solrj-4.5.1.pom \
             -DartifactId=solr-solrj \
             -DgroupId=org.apache.solr \
             -Dversion=4.5.1 \
